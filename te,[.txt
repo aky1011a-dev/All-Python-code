@@ -1,0 +1,58 @@
+while True:
+    x_counter,slash_counter,ChangeArray,InputList = 0,0,False,[[]] #[values],mean
+    MenuChoice = input("End code (-1), Find mean (1)\n-> ").strip().lower()
+    if MenuChoice == "1":
+        print("Enter '/' to stop entering values, enter 'x' for an unknown value.")
+        while True:
+            while True:
+                Input = input("-> ").strip().lower()
+                if (Input=='x' and x_counter==0) or (Input=='/' and len(InputList)>0 and slash_counter<=0):
+                   if  input == "/":
+                        slash_counter+=1
+                    	break
+		   if input == "x":
+			x_counter+=1
+			break
+		
+                try:
+                    if Input.replace('.','',1).isdigit():
+                        Input = float(Input)
+                        break
+                except:
+                    print("Not valid option")
+            if Input == '/':
+                ChangeArray = True
+            if ChangeArray:
+                InputList.append(Input)
+            else:
+                InputList[0].append(Input)
+            try:
+                checkformean = InputList[1]
+                break
+            except:
+                pass
+        calculatemean = True
+        for i in range(len(InputList[0])):
+            if InputList[0][i] == 'x':
+                calculatemean = False
+                tosubstract = 0.0
+                for j in range(len(InputList[0])):
+                    if InputList[0][j] != 'x':
+                        tosubstract+=InputList[0][j]
+                Input[0][i] = Input[1]*len(InputList[0])-tosubstract
+        if calculatemean and x_counter==0:
+            totalofvals = 0
+            for i in range(len(InputList[0])):
+                if InputList[0][i] != "x":
+                    totalofvals+=float(InputList[0][i])
+            InputList[1]=totalofvals/len(InputList[0])
+        print("The values are:")
+        for i in range(len(InputList[0])):
+            print(f"Value {i} = {InputList[0][i]}")
+        print(f"The mean is:\n{InputList[1]}")
+            
+    elif MenuChoice == "-1":
+        break
+    else:
+        print("Not valid option")
+
