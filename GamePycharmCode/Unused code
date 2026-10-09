@@ -1,0 +1,74 @@
+
+
+
+
+
+
+
+def multitask(task_array):
+	if not task_array:
+		return []
+
+	threads = []
+	def run_task(task):
+		try:
+			if not task:
+				return
+			func = task[0]
+			if not callable(func):
+				return
+			args = []
+			kwargs = {}
+
+			if len(task) > 1:
+				if isinstance(task[-1], dict):
+					args = task[1:-1]
+					kwargs = task[-1]
+				else:
+					args = task[1:]
+			func(*args, **kwargs)
+		except Exception as e:
+			print(f"Task error: {e}")
+
+	for task in task_array:
+		t = threading.Thread(target=run_task, args=(task,))
+		t.start()
+		threads.append(t)
+	for t in threads:
+		t.join()
+
+	return threads
+
+
+BASE_SFX_PATH = 'data/sfx/'
+def playsound(soundfile):
+
+	file = os.path.join("sounds", BASE_SFX_PATH + soundfile)
+	try:
+		pygame.mixer.init()
+		pygame.mixer.music.load(file)
+		pygame.mixer.music.play()
+		while pygame.mixer.music.get_busy():
+			time.sleep(0.1)
+	except Exception as e:
+		print(f"Cannot play {soundfile} : {e}")
+	print("test")
+
+
+
+
+
+
+
+
+
+self.collision_area = pygame.Rect(50,50,300,50) #coordX,coordY,sizeX,sizeY
+
+self.img_pos[1] += (self.movement[1] - self.movement[0]) * 5  # math with bool: True = 1, False = 0
+self.screen.blit(self.img, self.img_pos)
+
+img_r = pygame.Rect(self.img_pos[0], self.img_pos[1], self.img.get_width(), self.img.get_height())
+if img_r.colliderect(self.collision_area): #check if colliding
+    pygame.draw.rect(self.screen, (0, 100, 255), self.collision_area)
+else:
+    pygame.draw.rect(self.screen, (0, 50, 155), self.collision_area)
